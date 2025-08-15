@@ -28,6 +28,10 @@ A Python-based Discord bot that monitors a Minecraft Java server in real time an
 - [mcstatus](https://pypi.org/project/mcstatus/)
 - A running Minecraft Java server
 - Discord bot token
+- Discord channel ID
+- Message ID (for editing the same message, otherwise the bot will create new messages every 30 seconds)
+- Minecraft server IP and port
+- `server-icon.png` in root directory (where `Minecraft_Server_Status_Discord_Bot.py` is located)
 
 ## Installation
 
