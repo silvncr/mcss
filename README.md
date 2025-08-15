@@ -67,5 +67,4 @@ This project is licensed under the GPL-3.0 License - see the [LICENSE](LICENSE) 
 ---
 
 **Created by:** Ayan Khan  
-**Version:** 15.08.2025-1  
 **Email:** ayankhantnp786@gmail.com
