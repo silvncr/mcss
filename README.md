@@ -42,7 +42,7 @@ A Python-based Discord bot that monitors a Minecraft Java server in real time an
 
 2. **Install dependencies:**
    ```bash
-   pip install discord mcstatus
+   pip install discord.py mcstatus
    ```
 
 3. **Create the following files in the same directory:**
