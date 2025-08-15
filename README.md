@@ -7,7 +7,7 @@ A Python-based Discord bot that monitors a Minecraft Java server in real time an
 - **Real-time status updates**: Checks server status every 30 seconds.
 - **Online/Offline/Empty detection**: Shows different embed colors and messages based on server state.
 - **Player list display**: Lists the names of online players (if available).
-- **Server icon support**: Displays the Minecraft server's icon in the embed.
+- **Server icon support**: Displays the Minecraft server's icon in the embed. Place your `server-icon.png` in root directory where `Minecraft_Server_Status_Discord_Bot.py` is located.
 - **Efficient updates**: Only sends updates when something changes (status, player count, player list, or icon).
 
 ## How It Works
