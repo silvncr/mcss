@@ -37,21 +37,21 @@ A Python-based Discord bot that monitors a Minecraft Java server in real time an
 1. **Clone the repository:**
    ```bash
    git clone https://github.com/yourusername/minecraft-server-status-bot.git
-   cd minecraft-server-status-bot
+   cd minecraft-server-status-discord-bot
    ```
 
 2. **Install dependencies:**
    ```bash
-   pip install -r requirements.txt
+   pip install discord mcstatus
    ```
 
 3. **Create the following files in the same directory:**
-   - `TOKEN` → Your Discord bot token.
-   - `MC_SERVER_IP` → Your Minecraft server IP (e.g., play.example.com:25565).
-   - `CHANNEL_ID` → Discord channel ID where status should be posted.
-   - `MESSAGE_ID` → Leave empty or `0` for first run (will be auto-filled).
+   - `TOKEN` → Write your Discord bot token in it, nothing else, no spaces, no new lines (e.g., aefia7332t4y324f2wgu2).
+   - `MC_SERVER_IP` → Write your Minecraft server IP  with port in `ip:port` format in it (e.g., play.example.com:25565).
+   - `CHANNEL_ID` → Write in it your Discord channel ID where status should be posted.
+   - `MESSAGE_ID` → Do not create this file if no existing message is present to edit. If the first message is posted, you can copy that's ID and write in it so that could be edited onwards.
 
-4. **Optional:** Place your Minecraft server icon as `server-icon.png` in the bot's directory.
+4. **server-icon.png:** Place your Minecraft server icon as `server-icon.png` in the bot's directory.
 
 ## Running the Bot
 
