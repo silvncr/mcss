@@ -50,7 +50,7 @@ A Python-based Discord bot that monitors a Minecraft Java server in real time an
    - `MC_SERVER_IP` → Write your Minecraft server IP  with port in `ip:port` format in it (e.g., play.example.com:25565).
    - `CHANNEL_ID` → Write in it your Discord channel ID where status should be posted.
    - `MESSAGE_ID` → Do not create this file if no existing message is present to edit. If the first message is posted, you can copy that's ID and write in it so that could be edited onwards.
-   - **server-icon.png:** Place your Minecraft server icon as `server-icon.png` in the bot's directory.
+   - `server-icon.png:` Place your Minecraft server icon as `server-icon.png` in the bot's directory, replacing the existing one.
 
 ## Running the Bot
 
