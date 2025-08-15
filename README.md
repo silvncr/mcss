@@ -55,7 +55,7 @@ A Python-based Discord bot that monitors a Minecraft Java server in real time an
 ## Running the Bot
 
 ```bash
-python Minecraft\ Server\ Status\ Discord\ Bot.py
+python Minecraft_Server_Status_Discord_Bot.py
 ```
 
 The bot will create or update a status message in the given Discord channel.
