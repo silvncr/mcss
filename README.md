@@ -36,7 +36,7 @@ A Python-based Discord bot that monitors a Minecraft Java server in real time an
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/yourusername/minecraft-server-status-bot.git
+   git clone https://github.com/yourusername/minecraft-server-status-discord-bot.git
    cd minecraft-server-status-discord-bot
    ```
 
