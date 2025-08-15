@@ -60,6 +60,14 @@ python Minecraft_Server_Status_Discord_Bot.py
 
 The bot will create or update a status message in the given Discord channel.
 
+## Embed Screenshots
+
+<img width="458" height="197" alt="Screenshot 2025-08-15 174950" src="https://github.com/user-attachments/assets/8f10baff-7ddb-4193-a5a8-cf1b628d0453" />
+
+<img width="458" height="254" alt="Screenshot 2025-08-15 175340" src="https://github.com/user-attachments/assets/5ee4534c-e3d5-473f-9536-7e1a29f48bb3" />
+
+<img width="458" height="317" alt="Screenshot 2025-08-15 183136" src="https://github.com/user-attachments/assets/500638f4-06ec-48b3-b4d8-c113dedb799d" />
+
 ## License
 
 This project is licensed under the GPL-3.0 License - see the [LICENSE](LICENSE) file for details.
