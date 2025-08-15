@@ -19,7 +19,7 @@ A Python-based Discord bot that monitors a Minecraft Java server in real time an
    - If the server is online with no players → Purple embed with "Server is Online".
    - If the server is online with players → Green embed listing the players.
 4. Updates the embed only if something changes.
-5. Uses the server icon if available.
+5. Uses the server icon.
 
 ## Requirements
 
