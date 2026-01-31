@@ -120,20 +120,20 @@ async def create_status_embed(
             title=f'{SERVER_NAME}', description='🔴 Offline', color=0xFF0000,
         )
     elif status_type == 'empty':
-        print(f'🟣 Empty ({players_online}/{players_max})')
+        print(f'🟣 {players_online}/{players_max}')
         await client.change_presence(
             activity=nextcord.CustomActivity(
-                name=f'🟣 Empty ({players_online}/{players_max})',
+                name=f'🟣 Online ({players_online}/{players_max})',
             ),
             status=nextcord.Status.idle,
         )
         embed = nextcord.Embed(
             title=f'{SERVER_NAME}',
-            description=f'🟣 Empty ({players_online}/{players_max})',
+            description=f'🟣 Online ({players_online}/{players_max})',
             color=0x800080,
         )
     elif status_type == 'active':
-        print(f'🟢 Online ({players_online}/{players_max})', end='')
+        print(f'🟢 {players_online}/{players_max}', end='')
         await client.change_presence(
             activity=nextcord.CustomActivity(
                 name=f'🟢 Online ({players_online}/{players_max})',
@@ -178,7 +178,7 @@ async def on_ready() -> None:
     'On-ready function'
     global status_message, MESSAGE_ID
 
-    print(f'✅ Logged in as {client.user}')
+    print(f'✅ Logged in as {client.user} ({client.user.id}).')
 
     await client.change_presence(
         activity=nextcord.CustomActivity(name='⚙️ Starting up...'),
