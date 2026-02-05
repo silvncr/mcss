@@ -3,6 +3,7 @@
 
 A Python-based Discord bot that monitors a Minecraft Java server in real time and posts live status updates to a Discord channel. The bot shows whether the server is online or offline, displays the number of players online, and lists their usernames.
 
+> [!NOTE]
 > This project is forked from: <https://github.com/ayankhanakaak/Minecraft-Server-Status-Discord-Bot>
 >
 > I've made many improvements over that version, such as optional settings, slash commands, and migrating to `nextcord` over `discord.py`.
@@ -54,14 +55,14 @@ A Python-based Discord bot that monitors a Minecraft Java server in real time an
 
 ## Installation
 
-1. **Clone the repository:**
+1. Clone the repository:
 
    ```sh
    git clone https://github.com/silvncr/mcss.git
    cd mcss
    ```
 
-2. **Install dependencies:**
+2. Install dependencies:
 
    Create `venv`, if necessary.
 
@@ -76,7 +77,7 @@ A Python-based Discord bot that monitors a Minecraft Java server in real time an
    pip install -r requirements.txt
    ```
 
-3. **If you want to use an icon, place it in the folder (with `bot.py`):**
+3. If you want to use an icon, place it in the folder (with `bot.py`):
 
    Example:
 
@@ -84,7 +85,7 @@ A Python-based Discord bot that monitors a Minecraft Java server in real time an
    cp ~/Pictures/server-icon.png ./server-icon.png
    ```
 
-4. **Create a `.env` file with the following structure:**
+4. Create a `.env` file with the following structure:
 
    ```env
    TOKEN=
@@ -94,7 +95,8 @@ A Python-based Discord bot that monitors a Minecraft Java server in real time an
    CHANNEL_ID=
    MESSAGE_ID=
    MODE_ALWAYS_UPDATE=
-   MODE_INCLUDE_TIMESTAMP=
+   MODE_INCLUDE_CHANGE_TIMESTAMP=
+   MODE_INCLUDE_MESSAGE_TIMESTAMP=
    TIMEZONE_OFFSET_HOURS=
    TIMEZONE_OFFSET_MINUTES=
    ```
@@ -113,18 +115,33 @@ A Python-based Discord bot that monitors a Minecraft Java server in real time an
    - `CHANNEL_ID` (int): Discord channel ID where status should be posted.
    - `MESSAGE_ID` (int): Discord message ID for the status message. Leave this empty on the first run. When the first message is posted, copy its ID and write it here to use the same message on future runs.
 
-   - `MODE_ALWAYS_UPDATE` (str > bool): Whether to update the message every 30 seconds, or only when a change is detected. **Either `true` or empty.**
-   - `MODE_INCLUDE_TIMESTAMP` (str > bool): Whether to include a relative timestamp in the embed message. Does not affect logs. **Either `true` or empty.**
+   - `MODE_ALWAYS_UPDATE` (str > bool): Whether to update the message every 30 seconds, or only when a change is detected. Does not affect logs. **Either `true` or empty.**
+
+   - `MODE_INCLUDE_CHANGE_TIMESTAMP` (str > bool) and `MODE_INCLUDE_MESSAGE_TIMESTAMP` (str > bool): Whether to include a relative timestamp in the embed message -- each one serves a different purpose:
+     - `CHANGE`: last time the server status changed.
+     - `MESSAGE`: last time the status message was sent/edited.
+
+     Does not affect logs. **Either `true` or empty.**
+
+     > [!NOTE]
+     > `CHANGE` timestamp will not appear until the bot runs long enough to actually see a change.
+
+     > [!TIP]
+     > If `MODE_ALWAYS_UPDATE` is false, `CHANGE` and `MESSAGE` will be the same timestamp, so don't use both. In this case, the wording of `CHANGE` is clearer, so use that.
 
    - `TIMEZONE_OFFSET_HOURS` (int) and `TIMEZONE_OFFSET_MINUTES` (int): Timezone to which timestamps should be converted. Doesn't affect the bot's messages, only logs. (Discord uses Unix timestamps which are timezone-independent.)
 
      Can be positive, negative, `0`, or empty (implicit `0`).
 
-     Both numbers should be positive or negative, not mixed. In `(HOURS, MINUTES)`:
+     Both numbers should be positive or negative, not mixed. Or one can be `0`. In `(HOURS, MINUTES)`:
      - `UTC+9:30` would be `(9, 30)`.
      - `UTC-1:15` would be `(-1, -15)`.
 
-> Note to other devs regarding images:
+> [!NOTE]
+> Logs are printed whenever the server is checked (I think), which is every 30 seconds. This should be regardless of your settings, and regardless of when updates are sent to Discord.
+
+> [!NOTE]
+> To other devs -- regarding images:
 > 
 > ```py
 > # In discord.py (from upstream version):

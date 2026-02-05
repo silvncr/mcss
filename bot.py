@@ -17,7 +17,8 @@ SERVER_ICON_FILE = os.environ['SERVER_ICON_FILE']
 CHANNEL_ID = int(os.environ['CHANNEL_ID'])
 MESSAGE_ID = int(os.environ['MESSAGE_ID'] or 0) or None
 MODE_ALWAYS_UPDATE = bool(os.environ['MODE_ALWAYS_UPDATE'])
-MODE_INCLUDE_TIMESTAMP = bool(os.environ['MODE_INCLUDE_TIMESTAMP'])
+MODE_INCLUDE_CHANGE_TIMESTAMP = bool(os.environ['MODE_INCLUDE_CHANGE_TIMESTAMP'])
+MODE_INCLUDE_MESSAGE_TIMESTAMP = bool(os.environ['MODE_INCLUDE_MESSAGE_TIMESTAMP'])
 TIMEZONE_OFFSET_HOURS = int(os.environ['TIMEZONE_OFFSET_HOURS'] or 0)
 TIMEZONE_OFFSET_MINUTES = int(os.environ['TIMEZONE_OFFSET_MINUTES'] or 0)
 
@@ -36,6 +37,7 @@ last_status_data = (
     # 1.4 icon_url,
     # 1.5 icon_md5,
 )
+last_change_timestamp = None
 
 
 def file_hash(path: str) -> str:
@@ -113,7 +115,8 @@ async def create_status_embed(
     icon_url: str | None = None,
     icon_md5: str | None = None,  # noqa: ARG001
     *,
-    show_timestamp: bool = True,
+    show_change_timestamp: bool = True,
+    show_message_timestamp: bool = True,
 ) -> nextcord.Embed:
     'Create status embed'
     timestamp_str = datetime.datetime.fromtimestamp(
@@ -172,10 +175,17 @@ async def create_status_embed(
         else:
             print()
 
-    if show_timestamp:
+    if show_change_timestamp and last_change_timestamp is not None:
         embed.add_field(
-            name=('Last updated' if MODE_ALWAYS_UPDATE else 'Last change detected'),
+            name='Last change received',
+            value=f'<t:{last_change_timestamp + 30}:R>',  # why is it offset?
+            inline=show_message_timestamp,
+        )
+    if show_message_timestamp:
+        embed.add_field(
+            name='Last update sent',
             value=f'<t:{unix_timestamp}:R>',
+            inline=show_change_timestamp and last_change_timestamp is not None,
         )
 
     # embed.set_footer(text='Last updated')
@@ -238,15 +248,16 @@ async def on_ready() -> None:
     update_status.start()
 
 
-@client.slash_command(name='server-status', description='See server status')
-async def status(interaction: nextcord.Interaction) -> None:
+@client.slash_command(name='status', description='See Minecraft server status')
+async def mcss_status(interaction: nextcord.Interaction) -> None:
     'Status command'
     await interaction.response.defer(ephemeral=True)
     await interaction.followup.send(
         embed=await create_status_embed(
             last_status_data[0],
             *last_status_data[1],
-            show_timestamp=MODE_INCLUDE_TIMESTAMP,
+            show_change_timestamp=MODE_INCLUDE_CHANGE_TIMESTAMP,
+            show_message_timestamp=MODE_INCLUDE_MESSAGE_TIMESTAMP,
         ),
     )
 
@@ -254,20 +265,23 @@ async def status(interaction: nextcord.Interaction) -> None:
 @tasks.loop(seconds=30)
 async def update_status() -> None:
     'Update loop for server message'
-    global last_status_data
+    global last_change_timestamp, last_status_data
+
+    current_status_data = await get_status()
+
+    if last_status_data is not None:
+        if current_status_data[1] != last_status_data[1]:
+            last_change_timestamp = last_status_data[0]
+        elif not MODE_ALWAYS_UPDATE:
+            return
+
+    last_status_data = current_status_data
 
     icon_file = (
         nextcord.File(Path(SERVER_ICON_FILE), filename='icon.png')
         if Path(SERVER_ICON_FILE).exists()
         else None
     )
-
-    current_status_data = await get_status()
-
-    if not MODE_ALWAYS_UPDATE and current_status_data[1] == last_status_data[1]:
-        return
-
-    last_status_data = current_status_data
 
     if status_message:
         channel = client.get_channel(CHANNEL_ID)
@@ -276,7 +290,8 @@ async def update_status() -> None:
             embed=await create_status_embed(
                 current_status_data[0],
                 *current_status_data[1],
-                show_timestamp=MODE_INCLUDE_TIMESTAMP,
+                show_change_timestamp=MODE_INCLUDE_CHANGE_TIMESTAMP,
+                show_message_timestamp=MODE_INCLUDE_MESSAGE_TIMESTAMP,
             ),
             file=icon_file or [],
         )
